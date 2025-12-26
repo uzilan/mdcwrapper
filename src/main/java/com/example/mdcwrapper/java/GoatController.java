@@ -3,14 +3,7 @@ package com.example.mdcwrapper.java;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -32,8 +25,8 @@ public final class GoatController {
     @PostMapping
     public ResponseEntity<Goat> createGoat(@RequestBody final Goat goat) {
         try (final var ignored = MdcWrapper.info(logger, "serving POST /api/goats")) {
-            // final Goat createdGoat = goatService.createGoat(goat);
-            final Goat createdGoat = goatService.createGoatTheOldWay(goat);
+            final Goat createdGoat = goatService.addGoat(goat);
+            // final Goat createdGoat = goatService.addGoatTheOldWay(goat);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdGoat);
         }
     }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
-
     @ExceptionHandler(NoteNotFoundException::class)
     fun handleNoteNotFoundException(ex: NoteNotFoundException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(ex.message ?: "Note not found")
@@ -23,5 +22,6 @@ class GlobalExceptionHandler {
     }
 }
 
-data class ErrorResponse(val message: String)
-
+data class ErrorResponse(
+    val message: String,
+)

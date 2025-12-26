@@ -1,10 +1,5 @@
-package com.example.mdcwrapper;
+package com.example.mdcwrapper.java;
 
-import com.example.mdcwrapper.java.Goat;
-import com.example.mdcwrapper.java.GoatController;
-import com.example.mdcwrapper.java.GoatNotFoundException;
-import com.example.mdcwrapper.java.GoatRepository;
-import com.example.mdcwrapper.java.GoatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -138,7 +133,7 @@ public final class GoatControllerTest {
         final GoatController controller = new GoatController(service);
 
         assertThatThrownBy(() -> controller.getGoatById(999L))
-            .isInstanceOf(GoatNotFoundException.class);
+                .isInstanceOf(GoatNotFoundException.class);
     }
 
     @Test
@@ -149,8 +144,8 @@ public final class GoatControllerTest {
         final var created = controller.createGoat(new Goat(null, "Original", "Original Breed"));
 
         final var response = controller.updateGoat(
-            created.getBody().id(),
-            new Goat(null, "Updated", "Updated Breed")
+                created.getBody().id(),
+                new Goat(null, "Updated", "Updated Breed")
         );
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -165,7 +160,7 @@ public final class GoatControllerTest {
         final GoatController controller = new GoatController(service);
 
         assertThatThrownBy(() ->
-            controller.updateGoat(999L, new Goat(null, "Updated", "Updated Breed"))
+                controller.updateGoat(999L, new Goat(null, "Updated", "Updated Breed"))
         ).isInstanceOf(GoatNotFoundException.class);
     }
 
@@ -188,7 +183,7 @@ public final class GoatControllerTest {
         final GoatController controller = new GoatController(service);
 
         assertThatThrownBy(() -> controller.deleteGoat(999L))
-            .isInstanceOf(GoatNotFoundException.class);
+                .isInstanceOf(GoatNotFoundException.class);
     }
 }
 

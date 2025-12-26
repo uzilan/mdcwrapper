@@ -24,7 +24,7 @@ public final class MdcWrapper implements AutoCloseable {
             MDC.put(key, value);
             keys.add(key);
         });
-        log("Starting {}");
+        log("Started {}");
     }
 
     public MdcWrapper put(final String key, final String value) {

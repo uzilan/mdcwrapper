@@ -1,0 +1,23 @@
+meta {
+  name: add goat
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/goats
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Fredrik",
+    "breed": "Spotty"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,23 @@
+meta {
+  name: delete note
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:8080/api/notes/1
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+      "name": "Fredrik",
+      "breed": "Spotty"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

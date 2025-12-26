@@ -6,10 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(classes = [MdcwrapperApplication::class])
 class MdcwrapperApplicationTests {
-
-	@Test
-	fun contextLoads() {
-	}
-
+    @Test
+    fun contextLoads() {
+    }
 }
-

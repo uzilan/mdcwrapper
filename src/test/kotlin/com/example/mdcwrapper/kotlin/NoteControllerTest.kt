@@ -1,17 +1,12 @@
 package com.example.kotlin.mdcwrapper
 
-import com.example.mdcwrapper.kotlin.Note
-import com.example.mdcwrapper.kotlin.NoteController
-import com.example.mdcwrapper.kotlin.NoteNotFoundException
-import com.example.mdcwrapper.kotlin.NoteRepository
-import com.example.mdcwrapper.kotlin.NoteService
+import com.example.mdcwrapper.kotlin.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
 class NoteControllerTest {
-
     private class MockNoteService : NoteService(MockNoteRepository()) {
         private var idCounter = 0L
         private val notes = mutableMapOf<Long, Note>()
@@ -22,15 +17,14 @@ class NoteControllerTest {
             return newNote
         }
 
-        override fun getAllNotes(): List<Note> {
-            return notes.values.toList()
-        }
+        override fun getAllNotes(): List<Note> = notes.values.toList()
 
-        override fun getNoteById(id: Long): Note {
-            return notes[id] ?: throw NoteNotFoundException()
-        }
+        override fun getNoteById(id: Long): Note = notes[id] ?: throw NoteNotFoundException()
 
-        override fun updateNote(id: Long, note: Note): Note {
+        override fun updateNote(
+            id: Long,
+            note: Note,
+        ): Note {
             if (!notes.containsKey(id)) {
                 throw NoteNotFoundException()
             }
@@ -49,16 +43,27 @@ class NoteControllerTest {
 
     private class MockNoteRepository : NoteRepository {
         override fun <S : Note> save(entity: S): S = entity
+
         override fun <S : Note> saveAll(entities: Iterable<S>): Iterable<S> = entities
+
         override fun findById(id: Long): java.util.Optional<Note> = java.util.Optional.empty()
+
         override fun existsById(id: Long): Boolean = false
+
         override fun findAll(): Iterable<Note> = emptyList()
+
         override fun findAllById(ids: Iterable<Long>): Iterable<Note> = emptyList()
+
         override fun count(): Long = 0
+
         override fun deleteById(id: Long) {}
+
         override fun delete(entity: Note) {}
+
         override fun deleteAllById(ids: Iterable<Long>) {}
+
         override fun deleteAll(entities: Iterable<Note>) {}
+
         override fun deleteAll() {}
     }
 
@@ -154,4 +159,3 @@ class NoteControllerTest {
             .isInstanceOf(NoteNotFoundException::class.java)
     }
 }
-

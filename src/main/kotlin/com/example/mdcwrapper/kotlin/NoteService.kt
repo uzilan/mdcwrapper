@@ -13,13 +13,13 @@ class NoteService(
     fun createNoteTheOldWay(note: Note): Note {
         try {
             MDC.put("title", note.title)
-            logger.info("creating a new note.")
+            logger.debug("Started creating a new note")
 
             return noteRepository
                 .save(note)
                 .also {
                     MDC.put("id", it.id.toString())
-                    logger.info("created a new note.")
+                    logger.debug("Finished creating a new note")
                 }
         } finally {
             MDC.clear()

@@ -4,7 +4,6 @@ import org.slf4j.Logger
 import org.slf4j.MDC
 import org.slf4j.event.Level
 
-
 class MdcWrapper private constructor(
     val logger: Logger,
     val level: Level,
@@ -19,10 +18,13 @@ class MdcWrapper private constructor(
             MDC.put(key, value)
             keys.add(key)
         }
-        log("Starting {}")
+        log("Started {}")
     }
 
-    fun put(key: String, value: String): MdcWrapper {
+    fun put(
+        key: String,
+        value: String,
+    ): MdcWrapper {
         MDC.put(key, value)
         keys.add(key)
         return this
@@ -42,10 +44,16 @@ class MdcWrapper private constructor(
     }
 
     companion object {
-        fun info(logger: Logger, action: String, vararg entries: Pair<String, String>): MdcWrapper =
-            MdcWrapper(logger, Level.INFO, action, *entries)
+        fun info(
+            logger: Logger,
+            action: String,
+            vararg entries: Pair<String, String>,
+        ): MdcWrapper = MdcWrapper(logger, Level.INFO, action, *entries)
 
-        fun debug(logger: Logger, action: String, vararg entries: Pair<String, String>): MdcWrapper =
-            MdcWrapper(logger, Level.DEBUG, action, *entries)
+        fun debug(
+            logger: Logger,
+            action: String,
+            vararg entries: Pair<String, String>,
+        ): MdcWrapper = MdcWrapper(logger, Level.DEBUG, action, *entries)
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(classes = [MdcwrapperApplication::class])
 class NoteServiceIntegrationTest {
-
     @Autowired
     private lateinit var noteService: NoteService
 
@@ -96,4 +95,3 @@ class NoteServiceIntegrationTest {
             .isInstanceOf(NoteNotFoundException::class.java)
     }
 }
-

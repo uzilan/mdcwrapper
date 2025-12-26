@@ -22,21 +22,22 @@ public final class GoatService {
         this.goatRepository = goatRepository;
     }
 
-    public Goat createGoatTheOldWay(final Goat goat) {
+    public Goat addGoatTheOldWay(final Goat goat) {
         try {
             MDC.put("name", goat.name());
-            logger.info("adding a new goat.");
+            logger.debug("Started adding a new goat");
             final Goat saved = goatRepository.save(goat);
             MDC.put("id", "" + saved.id());
-            logger.info("added a new goat.");
+            logger.debug("Finished adding a new goat");
             return saved;
         } finally {
             MDC.clear();
         }
     }
 
-    public Goat createGoat(final Goat goat) {
-        try (final MdcWrapper mdc = MdcWrapper.debug(logger, "creating a new goat", Map.of("name", goat.name()))) {
+    public Goat addGoat(final Goat goat) {
+        try (final MdcWrapper mdc = MdcWrapper.debug(logger, "adding a new goat",
+                Map.of("name", goat.name()))) {
             final Goat saved = goatRepository.save(goat);
             mdc.put("id", "" + saved.id());
             return saved;

@@ -1,9 +1,6 @@
-package com.example.mdcwrapper;
+package com.example.mdcwrapper.java;
 
-import com.example.mdcwrapper.java.Goat;
-import com.example.mdcwrapper.java.GoatNotFoundException;
-import com.example.mdcwrapper.java.GoatRepository;
-import com.example.mdcwrapper.java.GoatService;
+import com.example.mdcwrapper.MdcwrapperApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,10 +21,10 @@ public final class GoatServiceIntegrationTest {
     private GoatRepository goatRepository;
 
     @Test
-    public void shouldCreateGoatInDatabase() {
+    public void shouldAddGoatInDatabase() {
         final Goat goat = new Goat(null, "Billy", "Alpine");
 
-        final Goat savedGoat = goatService.createGoat(goat);
+        final Goat savedGoat = goatService.addGoat(goat);
 
         assertThat(savedGoat.id()).isNotNull();
         assertThat(savedGoat.name()).isEqualTo("Billy");
@@ -37,8 +34,8 @@ public final class GoatServiceIntegrationTest {
     @Test
     public void shouldGetAllGoatsFromDatabase() {
         goatRepository.deleteAll();
-        goatService.createGoat(new Goat(null, "Goat 1", "Nubian"));
-        goatService.createGoat(new Goat(null, "Goat 2", "Boer"));
+        goatService.addGoat(new Goat(null, "Goat 1", "Nubian"));
+        goatService.addGoat(new Goat(null, "Goat 2", "Boer"));
 
         final var goats = goatService.getAllGoats();
 
@@ -47,7 +44,7 @@ public final class GoatServiceIntegrationTest {
 
     @Test
     public void shouldGetGoatByIdFromDatabase() {
-        final Goat saved = goatService.createGoat(new Goat(null, "FindMe", "LaMancha"));
+        final Goat saved = goatService.addGoat(new Goat(null, "FindMe", "LaMancha"));
 
         final Goat found = goatService.getGoatById(saved.id());
 
@@ -59,12 +56,12 @@ public final class GoatServiceIntegrationTest {
     @Test
     public void shouldThrowExceptionWhenGoatNotFound() {
         assertThatThrownBy(() -> goatService.getGoatById(99999L))
-            .isInstanceOf(GoatNotFoundException.class);
+                .isInstanceOf(GoatNotFoundException.class);
     }
 
     @Test
     public void shouldUpdateGoatInDatabase() {
-        final Goat saved = goatService.createGoat(new Goat(null, "Original", "Original Breed"));
+        final Goat saved = goatService.addGoat(new Goat(null, "Original", "Original Breed"));
 
         final Goat updated = goatService.updateGoat(saved.id(), new Goat(null, "Updated", "Updated Breed"));
 
@@ -79,30 +76,30 @@ public final class GoatServiceIntegrationTest {
     @Test
     public void shouldThrowExceptionWhenUpdatingNonExistentGoat() {
         assertThatThrownBy(() -> goatService.updateGoat(99999L, new Goat(null, "Updated", "Updated Breed")))
-            .isInstanceOf(GoatNotFoundException.class);
+                .isInstanceOf(GoatNotFoundException.class);
     }
 
     @Test
     public void shouldDeleteGoatFromDatabase() {
-        final Goat saved = goatService.createGoat(new Goat(null, "DeleteMe", "Delete Breed"));
+        final Goat saved = goatService.addGoat(new Goat(null, "DeleteMe", "Delete Breed"));
 
         goatService.deleteGoat(saved.id());
 
         assertThatThrownBy(() -> goatService.getGoatById(saved.id()))
-            .isInstanceOf(GoatNotFoundException.class);
+                .isInstanceOf(GoatNotFoundException.class);
     }
 
     @Test
     public void shouldThrowExceptionWhenDeletingNonExistentGoat() {
         assertThatThrownBy(() -> goatService.deleteGoat(99999L))
-            .isInstanceOf(GoatNotFoundException.class);
+                .isInstanceOf(GoatNotFoundException.class);
     }
 
     @Test
     public void shouldUpdateGoatNameAndBreed() {
         // Given: A goat exists in the database
         final Goat originalGoat = new Goat(null, "Patches", "Nigerian Dwarf");
-        final Goat savedGoat = goatService.createGoat(originalGoat);
+        final Goat savedGoat = goatService.addGoat(originalGoat);
         final Long goatId = savedGoat.id();
 
         // When: We update both name and breed
